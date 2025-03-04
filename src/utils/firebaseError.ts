@@ -10,7 +10,10 @@ export const getErrorMessage = (error: unknown): string => {
             "auth/user-disabled": "Akun telah dinonaktifkan!",
             "auth/too-many-requests": "Terlalu banyak percobaan, coba lagi nanti!",
             "auth/network-request-failed": "Koneksi internet bermasalah!",
-            "auth/email-already-in-use": "Email anda sudah terdaftar, harap login!"
+            "auth/email-already-in-use": "Email anda sudah terdaftar, harap login!",
+            "auth/cancelled-popup-request": "",
+            "auth/popup-closed-by-user": "",
+            "auth/popup-blocked": "",
         };
 
         return errorMessages[error.code] || "Terjadi kesalahan, coba lagi!";

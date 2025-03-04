@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "../../icons";
+import { EyeCloseIcon, EyeIcon } from "../../icons";
+import { doc, setDoc } from "firebase/firestore";
 import Label from "../form/Label";
 import Input from "../form/input/InputField";
 import Checkbox from "../form/input/Checkbox";
 import Button from "../ui/button/Button";
-import { auth, googleProvider } from "../../configs/firebaseConfigs";
+import { auth, googleProvider, db } from "../../configs/firebaseConfigs";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { getErrorMessage } from "../../utils/firebaseError";
 
@@ -51,24 +52,26 @@ export default function SignInForm() {
 
   const handleGoogleLogin = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
+      setError(null);
+      const result = await signInWithPopup(auth, googleProvider);
+      console.log(result);
+
+      const user = result.user;
+      await setDoc(doc(db, "users", user.uid), {
+        firstName: user.displayName?.split(" ")[0] || "",
+        lastName: user.displayName?.split(" ").slice(1).join(" ") || null,
+        email: user.email,
+        uid: user.uid,
+      }, { merge: true });
       navigate("/");
     } catch (error) {
       setError(getErrorMessage(error));
+      console.log(error);
     }
   };
 
   return (
     <div className="flex flex-col flex-1">
-      <div className="w-full max-w-md pt-10 mx-auto">
-        <Link
-          to="/"
-          className="inline-flex items-center text-sm text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
-        >
-          <ChevronLeftIcon className="size-5" />
-          Back to dashboard
-        </Link>
-      </div>
       <div className="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
         <div>
           <div className="mb-5 sm:mb-8">
