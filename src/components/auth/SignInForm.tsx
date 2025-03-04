@@ -44,7 +44,7 @@ export default function SignInForm() {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       setError(getErrorMessage(error));
     }
@@ -54,8 +54,6 @@ export default function SignInForm() {
     try {
       setError(null);
       const result = await signInWithPopup(auth, googleProvider);
-      console.log(result);
-
       const user = result.user;
       await setDoc(doc(db, "users", user.uid), {
         firstName: user.displayName?.split(" ")[0] || "",
@@ -63,7 +61,7 @@ export default function SignInForm() {
         email: user.email,
         uid: user.uid,
       }, { merge: true });
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       setError(getErrorMessage(error));
       console.log(error);

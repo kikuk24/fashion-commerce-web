@@ -74,7 +74,7 @@ export default function SignUpForm() {
         email: user.email,
         uid: user.uid,
       }, { merge: true });
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       setErrors((prevErrors) => ({ ...prevErrors, general: getErrorMessage(error) }));
     }

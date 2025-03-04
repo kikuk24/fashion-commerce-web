@@ -13,7 +13,7 @@ export default function SignUp() {
 
   useEffect(() => {
     if (user) {
-      navigate("/"); // Redirect to home if logged in
+      navigate("/dashboard");
     }
   }, [user, navigate]);
 

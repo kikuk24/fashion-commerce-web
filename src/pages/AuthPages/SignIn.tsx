@@ -12,7 +12,7 @@ export default function SignIn() {
 
   useEffect(() => {
     if (user) {
-      navigate("/"); // Redirect to home if logged in
+      navigate("/dashboard");
     }
   }, [user, navigate]);
 
